@@ -1,0 +1,89 @@
+/* CSS til 'fast header' på siden, så stævne tiden altid er synlig */
+#frametop{
+position: absolute; 
+top: 0; 
+left: 0; 
+width: 100%; 
+height: 60px; /*Height of frame div*/
+overflow: hidden; /*Disable scrollbars. Set to "scroll" to enable*/
+}
+
+#framebody{
+position: fixed; 
+top: 60px; /*Set top value to HeightOfFrameDiv*/
+left: 0;
+right: 0;
+bottom: 0;
+overflow: auto; 
+}
+
+.innertube{
+margin: 10px; /*Margins for inner DIV inside each DIV (to provide padding)*/
+}
+
+/* til højrestilling af tal i html tabel */
+.number {
+  text-align: right;
+}
+
+/* til større tekst i html tabel */
+.charsize {
+  font-size: 2em;
+}
+
+/* farver til nedtællings tiden */
+.color_black {
+  color: black;
+}  
+.color_blue {
+  color: blue;
+}  
+.color_green {
+  color: green;
+}  
+.color_red {
+  color: red;
+} 
+
+/* initielt skjult */
+.skjult
+{visibility:hidden;}
+
+/* popup ting */
+.popup
+{
+   position:absolute; left:15; top:0; width:400;
+   border-style:solid;
+   border-width:2;
+   border-color:black;
+   background-color:white;
+   padding:5px;
+   z-index:2;
+   visibility:hidden;
+}
+
+/* checkbox sizing */
+input[type=checkbox] {
+  /* All browsers except webkit*/
+  transform: scale(2.0);
+
+  /* Webkit browsers*/
+  -webkit-transform: scale(2.0);
+}
+
+/* virtual keyboard */
+.keyboard
+{
+	width: 48px;
+	height: 48px;
+	position: relative;
+	border-style: none;
+	font-weight: normal;
+	font-size: 2em;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-style: normal;
+}
+
+.line {
+	color: #51585E;
+}

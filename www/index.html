@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<!--
+    Copyright (c) 2012-2014 Adobe Systems Incorporated. All rights reserved.
+
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/handicap_v2.css" />
+        <title>Handicap</title>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="js/handicap_v2.js"></script>
+    </head>
+    <body>
+
+
+<table id="tbhead" border="0">
+ <tr>  
+  <td class="charsize">Klokke</td>
+  <td class="charsize"><div id="startklok"></div></td>  
+  <td class="charsize">Deltagere</td>
+  <td class="charsize"><div id="deltagere"></div></td>
+<!--  <td class="charsize">tid+</td>
+  <td class="charsize"><div id="tidp"></div></td>   -->
+   </tr>
+ <tr>
+  <td class="charsize">Stævnetid</td>
+  <td class="charsize"><div id="elaptime"></div></td>   
+  <td class="charsize">i Mål</td>
+  <td class="charsize"><div id="imaal"></div></td>   
+<!--   <td class="charsize">tid-</td>
+  <td class="charsize"><div id="tidm"></div></td>   -->
+ </tr>
+
+</table>
+
+
+<div id="msg">Loading...</div>
+
+<table id="tb_startliste" border="1" width="100%">
+ <tr>
+  <td class="charsize">Navn</td>
+  <td class="charsize">Start</td>
+  <td class="charsize">Ur</td>
+ </tr>
+</table>
+<br>
+
+<input type="button" id="SLUTTID" value="Split tid" class="charsize" onclick="Javascript:set_slut(-1,-1)" />
+
+<br> <br>
+<div id="butt1">
+<input type="button" id="stopur_st" value="Start Uret" onclick="Javascript:stopur_start(0)" class="charsize">
+<input type="button" onclick="Javascript:start_tilfoj_fra_listen()" value="Tilføj" class="charsize" />
+<input type="button" onclick="Javascript:visPopup('Menu')" value="Menu" class="charsize" />
+</div>
+<br>
+<div id="trc"></div>
+<br>
+<div id="butt4">
+<input type="button" onclick="Javascript:setfontsize(-0.5)" value="font -" class="charsize" />
+<input type="button" onclick="Javascript:setfontsize(+0.5)" value="font +" class="charsize" />
+</div>
+
+<span id="indtastNy" class="popup">
+<form name="inputny">
+<span class="charsize">Tilføj ny deltager</span><br>
+<table id="tbinputny" border="0">
+ <tr>
+  <td class="charsize">Navn</td>
+  <td><input type="text" id="i_navn" name="i_navn" tabindex="21" class="charsize"></td>
+ </tr>
+ <tr>
+  <td class="charsize">Starttid</td>
+  <td><input type="text" size="8" id="i_start" name="i_start" tabindex="22" class="charsize"></td>   
+ </tr>
+ <tr>
+  <td>
+  <br>
+  <input type="button" id="inp1" value="Tilføj" tabindex="23"
+         onclick="Javascript:tilfoj_ny_deltager(this.form.i_navn.value,this.form.i_start.value)" class="charsize">
+  &nbsp;&nbsp;&nbsp;
+  <input type="button" id="inp2" value="Exit" tabindex="24" onclick="Javascript:gemPopup('indtastNy')" class="charsize">
+  </td>     
+ </tr>
+</table>
+</form>
+</span>
+
+<span id="retDeltager" class="popup">
+<form>
+<span class="charsize">Ret deltager</span><br>
+<table border="0">
+ <tr><td class="charsize">Navn</td><td><input type="text" id="ret_navn" name="ret_navn" tabindex="31" class="charsize"></td></tr>
+ <tr><td class="charsize">Starttid</td><td><input type="text" size="8" id="ret_start" name="ret_start" tabindex="32" class="charsize" onfocus="setKeyboardCaller(this);"></td></tr>
+ <tr><td class="charsize">Ur</td><td><input type="text" size="8" id="ret_ur" name="ret_ur" tabindex="33" class="charsize" onfocus="setKeyboardCaller(this);"></td></tr> 
+</table>
+  <input type="button" id="ret" value="Ret Deltager" tabindex="34"
+    onClick="Javascript:retDeltager(this.form.ret_navn.value,this.form.ret_start.value,this.form.ret_ur.value)" class="charsize">
+  &nbsp;&nbsp;&nbsp;
+  <input type="button" id="ret2" value="Exit" tabindex="35" onClick="Javascript:gemPopup('retDeltager')" class="charsize">
+  &nbsp;&nbsp;&nbsp;
+  <input type="button" id="ret3" value="Fjern" tabindex="36" onClick="Javascript:retFjernDeltager();gemPopup('retDeltager');" class="charsize">
+</form>
+
+<hr style="height: 1px; color: #000000" />
+
+<div><table align="left">
+	<tr><td>
+			<input class="keyboard" type=button value="7" onClick="nkey(7)">
+			<input class="keyboard" type=button value="8" onClick="nkey(8)">
+			<input class="keyboard" type=button value="9" onClick="nkey(9)">
+		</td>
+		<td>
+    		<input class="keyboard" type=button value="&larr;" onClick="fkey('bs')">
+	    </td>
+	</tr>
+	<tr><td>
+			<input class="keyboard" type=button value="4" onClick="nkey(4)">
+			<input class="keyboard" type=button value="5" onClick="nkey(5)">
+			<input class="keyboard" type=button value="6" onClick="nkey(6)">
+		</td>
+	</tr>
+	<tr><td>
+			<input class="keyboard" type=button value="1" onClick="nkey(1)">
+			<input class="keyboard" type=button value="2" onClick="nkey(2)">
+			<input class="keyboard" type=button value="3" onClick="nkey(3)">
+		</td>
+	</tr>
+	<tr><td>
+			<input class="keyboard" type=button value="0" onClick="nkey(0)">
+		</td>
+	</tr>
+</table>
+</div>
+</span>
+
+
+<span id="indtastTid" class="popup">
+<form>
+<span class="charsize">Indtast sluttid</span><br>
+<table border="0">
+ <tr><td class="charsize">Navn</td><td id="ind_navn" class="charsize"></td></tr>
+ <tr><td class="charsize">Sluttid</td><td><input type="text" size="8" id="ind_sluttid" name="ind_sluttid" tabindex="33" class="charsize" onfocus="setKeyboardCaller(this);"></td></tr> 
+</table>
+  <input type="button" id="ind" value="Ret" tabindex="34"
+    onClick="Javascript:retIndtastTid(this.form.ind_sluttid.value);udfyldIndtastTid(+1)" class="charsize">
+  &nbsp;&nbsp;&nbsp;
+  <input type="button" id="ind3" value="Forrige" tabindex="36" onClick="Javascript:udfyldIndtastTid(-1);" class="charsize">
+  &nbsp;&nbsp;&nbsp;
+  <input type="button" id="ind4" value="Næste" tabindex="37" onClick="Javascript:udfyldIndtastTid(+1);" class="charsize">
+  &nbsp;&nbsp;&nbsp;
+  <input type="button" id="ind2" value="Exit" tabindex="35" onClick="Javascript:slutIndtastTider();gemPopup('indtastTid')" class="charsize">
+</form>
+
+<hr style="height: 1px; color: #000000" />
+
+<div><table align="left">
+	<tr><td>
+			<input class="keyboard" type=button value="7" onClick="nkey(7)">
+			<input class="keyboard" type=button value="8" onClick="nkey(8)">
+			<input class="keyboard" type=button value="9" onClick="nkey(9)">
+		</td>
+		<td>
+    		<input class="keyboard" type=button value="&larr;" onClick="fkey('bs')">
+	    </td>
+	</tr>
+	<tr><td>
+			<input class="keyboard" type=button value="4" onClick="nkey(4)">
+			<input class="keyboard" type=button value="5" onClick="nkey(5)">
+			<input class="keyboard" type=button value="6" onClick="nkey(6)">
+		</td>
+	</tr>
+	<tr><td>
+			<input class="keyboard" type=button value="1" onClick="nkey(1)">
+			<input class="keyboard" type=button value="2" onClick="nkey(2)">
+			<input class="keyboard" type=button value="3" onClick="nkey(3)">
+		</td>
+	</tr>
+	<tr><td>
+			<input class="keyboard" type=button value="0" onClick="nkey(0)">
+		</td>
+	</tr>
+</table>
+</div>
+</span>
+
+<span id="Menu" class="popup">
+<table border="0">
+ <tr><td><input type="button" value="Exit" onclick="Javascript:gemPopup('Menu')" class="charsize" style="width:100%"></td></tr>
+ <tr><td><input type="button" value="Tilføj ny" onclick="Javascript:start_tilfoj_ny_deltager()" class="charsize" style="width:100%"/></tr></td>
+ <tr><td><input type="button" value="Stop Uret" onclick="Javascript:stopur_stop()" class="charsize" style="width:100%"></td></tr>
+ <tr><td><input type="button" value="Indtast Sluttider" onclick="Javascript:gemPopup('Menu');startIndtastTider()" class="charsize" style="width:100%"></td></tr>
+ <tr><td><input type="button" value="Menu2" onclick="Javascript:gemPopup('Menu');visPopup('Menu2')" class="charsize" style="width:100%"></td></tr>
+ <tr><td><input type="button" value="Exit" onclick="Javascript:gemPopup('Menu')" class="charsize" style="width:100%"></td></tr>
+</table>
+</span>
+
+<span id="Menu2" class="popup">
+<table border="0">
+ <tr><td><input type="button" value="Exit" onclick="Javascript:gemPopup('Menu2')" class="charsize" style="width:100%"></td></tr>
+ <tr><td><input type="button" value="Upload" onclick="Javascript:uploaddata()" class="charsize" style="width:100%" /></td></tr>
+ <tr><td><input type="button" value="Gem løb" onclick="Javascript:gemLob()" class="charsize" style="width:100%" /></td></tr>
+ <tr><td><input type="button" value="Hent løb" onclick="Javascript:hentLob()" class="charsize" style="width:100%" /></td></tr>
+ <tr><td><input type="button" value="Sorter" onclick="Javascript:sortPlacering()" class="charsize" style="width:100%" /></td></tr>
+ <tr><td><input type="button" value="Update" onclick="Javascript:opdater_tb_startliste()" class="charsize" style="width:100%" /></td></tr>
+ <tr><td><input type="button" value="profil" onclick="Javascript:gemPopup('Menu2');visPopup('Profil')" class="charsize" style="width:100%"></td></tr>
+ <tr><td><input type="button" value="vis slut" onclick="Javascript:vis_slut()" class="charsize" style="width:100%"></td></tr>
+ <tr><td><input type="button" value="restart" onclick="Javascript:stopur_restart()" class="charsize" style="width:100%"></td></tr>
+ <tr><td><input type="button" value="loadRokort" onclick="Javascript:loadRokortData()" class="charsize" style="width:100%"></td></tr>
+ <tr><td><input type="button" value="loadRokort2" onclick="Javascript:loadRokortData2()" class="charsize" style="width:100%"></td></tr>
+ <tr><td><input type="button" value="loadTestdata" onclick="Javascript:loadOrgData('0001-01-01')" class="charsize" style="width:100%"></td></tr>
+ <tr><td><input type="button" value="initpage" onclick="Javascript:init_page()" class="charsize" style="width:100%"></td></tr>
+ <tr><td><input type="button" value="Exit" onclick="Javascript:gemPopup('Menu2')" class="charsize" style="width:100%"></td></tr>
+</table>
+</span>
+
+<span id="Profil" class="popup">
+<span class="charsize">Indstillinger</span><br>
+<form action="">
+<table border="0">
+<tr><td><span class="charsize">Checkbox1</span></td><td><input type="checkbox" id="profilCB1"></td></tr>
+<tr><td><span class="charsize">Checkbox2</span></td><td><input type="checkbox" id="profilCB2"></td></tr>
+</table>
+</form>
+<input type="button" onclick="Javascript:setProfil()" value="OK" class="charsize" />
+<input type="button" onclick="Javascript:gemPopup('Profil')" value="Exit" class="charsize" />
+</span>
+
+<span id="fraListen" class="popup">
+<input type="button" id="inpfl" value="Exit" tabindex="41" onclick="Javascript:gemPopup('fraListen')" class="charsize">
+<table id="tborg" border="1">
+    <tr>
+        <td class="charsize">Navn</td>
+        <td class="charsize">Starttid</td>   
+    </tr>
+</table>
+<input type="button" id="inpfl" value="Exit" tabindex="42" onclick="Javascript:gemPopup('fraListen')" class="charsize">
+</span>
+<br>
+<span id="visslut" class="skjult">
+<table id="tbslut" border="0">
+ <tr>
+  <td>
+    <table id="tbslut1" border="1">
+     <td class="charsize">Nr</td>
+     <td class="charsize">Tid</td>
+     <td class="charsize">Foto</td>
+    </table>
+  </td> 
+  <td>
+    <table id="tbslut2" border="1">
+     <td class="charsize">Navn</td>
+    </table> 
+  </td>   
+ </tr>
+</table>
+<table id="tbslut9" border="0">
+ <tr>
+  <td class="charsize">tid:</td>
+  <td class="charsize"><div id="valgt_sluttid_tx"></div></td> 
+  <td class="charsize">deltager:</td> 
+  <td class="charsize"><div id="valgt_delt_tx"></div></td> 
+ </tr>
+</table>
+</span>  <!-- end of visslut -->
+
+
+
+	<script type="text/javascript">
+            app.initialize();
+        </script>
+    </body>
+</html>
